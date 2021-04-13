@@ -23,12 +23,6 @@ app.secret_key = 'secret2021'
 api = Api(app)
 
 
-# Instruction to SQLAlchemy to create tables and database before any queries are executed
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
-
 # JWT object for authentication
 # Creates a new endpoint /auth where we make a request with username and password in JSON body
 # The JSON body is verified with authenticate(username, password) and a JWT token is generated
