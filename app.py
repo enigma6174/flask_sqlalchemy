@@ -1,8 +1,11 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 
 from db import db
+from resources.home import Home
 from security import authenticate, identity
 from resources.user import RegisterUser
 from resources.item import Item, ItemList
@@ -13,7 +16,7 @@ from resources.store import Store, StoreList
 app = Flask(__name__)
 
 # Configurations for SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # JWT secret key
@@ -21,12 +24,6 @@ app.secret_key = 'secret2021'
 
 # Api object
 api = Api(app)
-
-
-# Instruction to SQLAlchemy to create tables and database before any queries are executed
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
 # JWT object for authentication
@@ -37,6 +34,7 @@ def create_tables():
 jwt = JWT(app, authenticate, identity)
 
 
+api.add_resource(Home, '/')
 api.add_resource(RegisterUser, '/register')
 api.add_resource(ItemList, '/items')
 api.add_resource(Item, '/item/<string:name>')
