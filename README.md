@@ -10,7 +10,7 @@ access tokens in this project are achieved using flask-jwt library.
 
 [changelog]
 
-Added support for automatic deployments from master branch 
+Added support for automatic deployments from master branch on Heroku platform 
 
 
 All API endpoints have been tested with POSTMAN
